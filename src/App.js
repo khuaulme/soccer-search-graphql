@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import PlayerGrid from "./components/PlayerGrid";
 import SearchBar from "./components/SearchBar";
 
 function App() {
@@ -21,8 +21,9 @@ function App() {
     const playersJSON = response.data;
     console.log(playersJSON);
 
-    if (playersJSON && playersJSON.length > 0) {
+    if (playersJSON) {
       setPlayers(playersJSON.searchPlayers);
+      console.log("SETTING SHOWING PLAYER CHOICES");
       setShowPlayerChoices(true);
     }
   };
@@ -51,6 +52,22 @@ function App() {
           setSearchTerm={setSearchTerm}
           setSubmitted={setSubmitted}
         />
+      </div>
+      <hr
+        style={{
+          color: "green",
+          backgroundColor: "green",
+          height: 2,
+          borderColor: "green",
+        }}
+      />
+
+      <div className="px-12">
+        {showPlayerChoices && (
+          <>
+            <PlayerGrid players={players} />
+          </>
+        )}
       </div>
     </div>
   );
