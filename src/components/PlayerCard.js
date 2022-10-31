@@ -1,4 +1,5 @@
 import React from "react";
+import CountryCard from "./CountryCard";
 
 const PlayerCard = ({ player }) => {
   return (
@@ -23,7 +24,16 @@ const PlayerCard = ({ player }) => {
         {"Overall: "}
         {player?.overall}
       </div>
-      <div className="">Positions: {player?.player_positions}</div>
+      <div className="mb-4">Positions: {player?.player_positions}</div>
+      <hr
+        style={{
+          color: "green",
+          backgroundColor: "green",
+          height: 2,
+          borderColor: "green",
+        }}
+      />
+      <CountryCard nation={player.nationality_name} />
     </div>
   );
 };
