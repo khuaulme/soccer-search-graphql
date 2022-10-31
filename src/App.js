@@ -1,17 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
 import SearchBar from "./components/SearchBar";
-import SearchIcon from "./images/Search.png";
-
-// Import the MongoDB Realm Web SDK
-import * as Realm from "realm-web";
-
-// Connect to your MongoDB Realm app
-const REALM_APP_ID = "worldcup2022-pzgui"; // e.g. myapp-abcde
-const app = new Realm.App({ id: REALM_APP_ID });
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [players, setPlayers] = useState([]);
+  const [showPlayerChoices, setShowPlayerChoices] = useState(false);
+
+  const EndPoint =
+    "https://us-west-2.aws.data.mongodb-api.com/app/worldcup2022-pzgui/endpoint/workaround";
+
+  const getPlayers = async () => {
+    console.log("IN GETPLAYERS");
+    let API = `${EndPoint}?name=$${searchTerm}`;
+
+    const response = await (await fetch(API)).json();
+
+    console.log("RESPONSE", response.data); // payload returns searchPlayers array - name of customResolver
+    const playersJSON = response.data;
+    console.log(playersJSON);
+
+    if (playersJSON && playersJSON.length > 0) {
+      setPlayers(playersJSON.searchPlayers);
+      setShowPlayerChoices(true);
+    }
+  };
+
+  useEffect(() => {
+    if (!submitted) return;
+    console.log("IN USE EFFECT");
+
+    getPlayers();
+    setSubmitted(false);
+
+    // eslint-disable-next-line
+  }, [submitted]);
+
   return (
     <div className="min-h-screen bg-black">
       <h2 className="text-center text-4xl text-white pt-12">
