@@ -9,7 +9,7 @@ function App() {
   const [showPlayerChoices, setShowPlayerChoices] = useState(false);
 
   const EndPoint =
-    "https://us-west-2.aws.data.mongodb-api.com/app/worldcup2022-pzgui/endpoint/workaround";
+    "https://us-east-1.aws.data.mongodb-api.com/app/worldcupgraphql-cxtzr/endpoint/searchGraphQL";
 
   const getPlayers = async () => {
     console.log("IN GETPLAYERS");
@@ -19,11 +19,12 @@ function App() {
 
     console.log("RESPONSE", response.data); // payload returns searchPlayers array - name of customResolver
     const playersJSON = response.data;
-    console.log(playersJSON);
+    // console.log(playersJSON);
 
     if (playersJSON) {
-      setPlayers(playersJSON.searchPlayers);
+      setPlayers(playersJSON.search);
       console.log("SETTING SHOWING PLAYER CHOICES");
+      console.log("PLAYERS", playersJSON.search);
       setShowPlayerChoices(true);
     }
   };
@@ -43,7 +44,7 @@ function App() {
       <h2 className="text-center text-4xl text-white pt-12">
         Atlas GraphQL Soccer
       </h2>
-      <h2 className="text-center text-xl text-green-400 pt-4 text-white pb-12">
+      <h2 className="text-center text-xl text-green-400 pt-4  pb-12">
         Find Your Players ⚽
       </h2>
       <div className="flex mx-auto w-3/5 justify-around items-center">
