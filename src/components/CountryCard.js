@@ -11,10 +11,10 @@ const CountryCard = ({ nation }) => {
       ></img>
       <div className="w-3/4 ">
         <div className="uppercase text-green-400 mb-2">{nation._id}</div>
-        <div>{nation.ChampionshipCount} Championships</div>
-        <div>{nation.FinalsCount} Finals</div>
-        <div>{nation.SemisCount} Semis</div>
-        <div>{nation.QuartersCount} Quarterfinals</div>
+        <div>{nation?.ChampionshipCount} Championships</div>
+        <div>{nation?.FinalsCount} Finals</div>
+        <div>{nation?.SemisCount} Semis</div>
+        <div>{nation?.QuartersCount} Quarterfinals</div>
       </div>
     </div>
   );

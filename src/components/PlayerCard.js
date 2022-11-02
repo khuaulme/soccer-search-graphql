@@ -2,6 +2,12 @@ import React from "react";
 import CountryCard from "./CountryCard";
 
 const PlayerCard = ({ player }) => {
+  // if (!player.nation_jersey_number) player.nation_jersey_number = 0;
+  if (!player.club_jersey_number) player.club_jersey_number = 0;
+
+  if (!player.player_face_url) player.player_face_url = "";
+  if (!player.nationality_name) player.nationality_name = "France";
+
   return (
     <div className="justify-center rounded-xl border border-slate-500 text-center shadow-xl p-6 text-white border-solid">
       <div className="">{player?.long_name}</div>
