@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import PlayerGrid from "./components/PlayerGrid";
 import SearchBar from "./components/SearchBar";
+import PlayerModal from "./components/PlayerModal";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [players, setPlayers] = useState([]);
   const [showPlayerChoices, setShowPlayerChoices] = useState(false);
+  const [displayedPlayer, setDisplayedPlayer] = useState({});
+  const [showPlayerModal, setShowPlayerModal] = useState(false);
 
   const EndPoint =
     "https://us-east-1.aws.data.mongodb-api.com/app/worldcupgraphql-cxtzr/endpoint/searchGraphQL";
@@ -66,10 +69,21 @@ function App() {
       <div className="px-12">
         {showPlayerChoices && (
           <>
-            <PlayerGrid players={players} />
+            <PlayerGrid
+              players={players}
+              setDisplayedPlayer={setDisplayedPlayer}
+              setShowPlayerModal={setShowPlayerModal}
+            />
           </>
         )}
       </div>
+      {showPlayerModal ? (
+        <PlayerModal
+          players={players}
+          displayedPlayer={displayedPlayer} // displayedPlayer
+          setShowPlayerModal={setShowPlayerModal}
+        />
+      ) : null}
     </div>
   );
 }
