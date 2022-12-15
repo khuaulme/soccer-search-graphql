@@ -4,7 +4,7 @@ const TikTok = ({ author, description, TikTokURL }) => {
   console.log(TikTokURL);
   return (
     <div className="flex flex-col w-96 rounded h-auto text-white py-8 mx-auto bg-black px-2 text-sm content-start border border-yellow-200">
-      <div class="aspect-w-9 aspect-h-16">
+      <div className="aspect-w-9 aspect-h-16">
         <iframe
           title="tiktok"
           src={TikTokURL}

@@ -1,43 +1,39 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "@apollo/client";
+import { GET_PLAYER_DETAILS } from "../GraphQL/Queries";
+
 import LikePlayerSection from "./LikePlayerSection";
 import TikTok from "./TikTok";
 
-const PlayerModal = ({
-  setShowPlayerModal,
-
-  displayedPlayer,
-}) => {
+const PlayerModal = ({ setShowPlayerModal, displayedPlayer }) => {
   //   const shortDate = new Date(displayedPlayer.dob);
   //   const birthday = shortDate.toLocaleDateString();
+
+  const { loading, data } = useQuery(GET_PLAYER_DETAILS, {
+    variables: {
+      Nic: {
+        short_name: displayedPlayer.short_name,
+      },
+    },
+  });
 
   const [likePlayers, setLikePlayers] = useState([]);
   const [TikTokURL, setTikTokURL] = useState("");
   const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
 
-  //   let scoreString = "" + displayedPlayer?.score;
-  //   scoreString = scoreString.slice(0, 5);
-
-  const getLikePlayersTikTok = async () => {
-    console.log("in GraphQL function");
-    console.log("PLAYER ID: ", displayedPlayer._id);
-    console.log("PLAYER NAME: ", displayedPlayer.short_name);
-    const GRAPHQLENDPOINT = `https://us-east-1.aws.data.mongodb-api.com/app/atlassearchsoccergraphql-osuzx/endpoint/playerDetails?name=${displayedPlayer.short_name}`;
-    const response = await (await fetch(GRAPHQLENDPOINT)).json();
-    console.log("TIKTOK", response.data.player.tiktok_trends[1].video.playAddr);
-
-    console.log("LIKE PLAYERS: ", response.data.player.likePlayers);
-    setLikePlayers(response.data.player.likePlayers);
-    setAuthor(response.data.player.tiktok_trends[1].author.nickname);
-    setDescription(response.data.player.tiktok_trends[1].description);
-    setTikTokURL(response.data.player.tiktok_trends[1].video.playAddr);
-  };
-
   useEffect(() => {
-    getLikePlayersTikTok();
+    console.log("IN PLAYERMODAL");
+    if (data) {
+      console.log("PLAYER DATA: ", data.player);
+      setLikePlayers(data.player.likePlayers);
+      setAuthor(data.player.tiktok_trends[1].author.nickname);
+      setDescription(data.player.tiktok_trends[1].description);
+      setTikTokURL(data.player.tiktok_trends[1].video.playAddr);
+    }
 
     // eslint-disable-next-line
-  }, []);
+  }, [data]);
 
   return (
     <div className="fixed inset-0 z-20 p-20 flex justify-center bg-smoke-darkest">
