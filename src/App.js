@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     console.log("IN USE EFFECT");
-    if (!submitted) return;
+    // if (!submitted) return;
     if (data) {
       console.log("DATA: ", data);
       setPlayers(data.search);
@@ -31,7 +31,7 @@ function App() {
     }
 
     // eslint-disable-next-line
-  }, [submitted]);
+  }, [data]);
 
   return (
     <div className="min-h-screen bg-black">
