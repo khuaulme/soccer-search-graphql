@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { startTransition, useEffect, useState } from "react";
 import PlayerGrid from "./components/PlayerGrid";
 import SearchBar from "./components/SearchBar";
 import PlayerModal from "./components/PlayerModal";
+import GetPlayers from "./components/GetPlayers";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,8 +15,6 @@ function App() {
   const EndPoint =
     "https://us-east-1.aws.data.mongodb-api.com/app/atlassearchsoccergraphql-osuzx/endpoint/getPlayers";
 
-  // "https://us-east-1.aws.data.mongodb-api.com/app/worldcupgraphql-cxtzr/endpoint/searchGraphQL";
-
   const getPlayers = async () => {
     console.log("IN GETPLAYERS");
     let API = `${EndPoint}?name=${searchTerm}`;
@@ -24,7 +23,6 @@ function App() {
 
     console.log("RESPONSE", response.data); // payload returns searchPlayers array - name of customResolver
     const playersJSON = response.data;
-    // console.log(playersJSON);
 
     if (playersJSON) {
       setPlayers(playersJSON.search);
@@ -86,6 +84,7 @@ function App() {
           setShowPlayerModal={setShowPlayerModal}
         />
       ) : null}
+      <GetPlayers />
     </div>
   );
 }
