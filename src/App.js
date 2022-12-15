@@ -27,10 +27,11 @@ function App() {
       setPlayers(data.search);
       console.log(data.search);
       setShowPlayerChoices(true);
+      setSubmitted(false);
     }
 
     // eslint-disable-next-line
-  }, [data]);
+  }, [submitted]);
 
   return (
     <div className="min-h-screen bg-black">

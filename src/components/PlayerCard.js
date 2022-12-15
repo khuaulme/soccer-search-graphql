@@ -11,14 +11,15 @@ const PlayerCard = ({
   if (!player.club_jersey_number) player.club_jersey_number = 0;
 
   if (!player.player_face_url) player.player_face_url = "";
-  // if (!player.nationality_name) player.nationality_name = "France";
+  // if (!player?.nationality_name.country)
+  //   player.nationality_name.country = "France";
 
   return (
     <div className="relative justify-center rounded-xl border border-slate-500 text-center shadow-xl p-6 text-white border-solid">
       <div className="">{player?.long_name}</div>
       <div className="flex justify-evenly mt-2">
         <img src={player?.nation_flag_url} className="w-8 " alt="flag"></img>
-        {/* <div>{player.nationality_name?.country}</div> */}
+        <div>{player.nationality_name?.country}</div>
         <div>{player?.nation_jersey_number}</div>
       </div>
       <img
