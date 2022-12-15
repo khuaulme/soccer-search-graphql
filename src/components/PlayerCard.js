@@ -45,7 +45,9 @@ const PlayerCard = ({
           borderColor: "green",
         }}
       />
-      {/* <CountryCard nation={player.nationality_name} /> */}
+      {player.nationality_name && (
+        <CountryCard nation={player.nationality_name} />
+      )}
       <div className="mt-6 w-4/5 mx-auto ">
         {" "}
         <div

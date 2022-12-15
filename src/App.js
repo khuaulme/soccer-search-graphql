@@ -80,39 +80,3 @@ function App() {
 }
 
 export default App;
-
-// "https://us-east-1.aws.data.mongodb-api.com/app/worldcupgraphql-cxtzr/endpoint/searchGraphQL";
-// const errorLink = onError(({ graphqlErrors, networkError }) => {
-//   if (graphqlErrors) {
-//     graphqlErrors.map(({ message, location, path }) => {
-//       alert(`GraphQL error: ${message}`);
-//     });
-//   }
-// });
-
-// const getPlayers = async () => {
-//   console.log("IN GETPLAYERS");
-//   let API = `${EndPoint}?name=${searchTerm}`;
-
-//   const response = await (await fetch(API)).json();
-
-//   console.log("RESPONSE", response.data); // payload returns searchPlayers array - name of customResolver
-//   const playersJSON = response.data;
-
-//   if (playersJSON) {
-//     setPlayers(playersJSON.search);
-//     console.log("SETTING SHOWING PLAYER CHOICES");
-//     console.log("PLAYERS", playersJSON.search);
-//     setShowPlayerChoices(true);
-//   }
-// };
-
-//  useEffect(() => {
-//    if (!submitted) return;
-//    console.log("IN USE EFFECT");
-
-//    getPlayers();
-//    setSubmitted(false);
-
-//    // eslint-disable-next-line
-//  }, [submitted]);
