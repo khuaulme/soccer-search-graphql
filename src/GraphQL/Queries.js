@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client";
+import gql from "graphql-tag";
 
 export const LOAD_PLAYERS = gql`
-  query ($Input: String) {
+  query GetPlayers($Input: String) {
     search(input: $Input) {
       club_jersey_number
       club_logo_url

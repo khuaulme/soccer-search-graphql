@@ -6,7 +6,6 @@ import { LOAD_PLAYERS } from "./GraphQL/Queries";
 import PlayerGrid from "./components/PlayerGrid";
 import SearchBar from "./components/SearchBar";
 import PlayerModal from "./components/PlayerModal";
-import GetPlayers from "./components/GetPlayers";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,35 +15,22 @@ function App() {
   const [displayedPlayer, setDisplayedPlayer] = useState({});
   const [showPlayerModal, setShowPlayerModal] = useState(false);
 
-  const EndPoint =
-    "https://us-east-1.aws.data.mongodb-api.com/app/atlassearchsoccergraphql-osuzx/endpoint/getPlayers";
-
-  const getPlayers = async () => {
-    console.log("IN GETPLAYERS");
-    let API = `${EndPoint}?name=${searchTerm}`;
-
-    const response = await (await fetch(API)).json();
-
-    console.log("RESPONSE", response.data); // payload returns searchPlayers array - name of customResolver
-    const playersJSON = response.data;
-
-    if (playersJSON) {
-      setPlayers(playersJSON.search);
-      console.log("SETTING SHOWING PLAYER CHOICES");
-      console.log("PLAYERS", playersJSON.search);
-      setShowPlayerChoices(true);
-    }
-  };
+  const { loading, data } = useQuery(LOAD_PLAYERS, {
+    variables: { Input: searchTerm },
+  });
 
   useEffect(() => {
-    if (!submitted) return;
     console.log("IN USE EFFECT");
-
-    getPlayers();
-    setSubmitted(false);
+    if (!submitted) return;
+    if (data) {
+      console.log("DATA: ", data);
+      setPlayers(data.search);
+      console.log(data.search);
+      setShowPlayerChoices(true);
+    }
 
     // eslint-disable-next-line
-  }, [submitted]);
+  }, [data]);
 
   return (
     <div className="min-h-screen bg-black">
@@ -88,7 +74,6 @@ function App() {
           setShowPlayerModal={setShowPlayerModal}
         />
       ) : null}
-      <GetPlayers />
     </div>
   );
 }
@@ -103,3 +88,30 @@ export default App;
 //     });
 //   }
 // });
+
+// const getPlayers = async () => {
+//   console.log("IN GETPLAYERS");
+//   let API = `${EndPoint}?name=${searchTerm}`;
+
+//   const response = await (await fetch(API)).json();
+
+//   console.log("RESPONSE", response.data); // payload returns searchPlayers array - name of customResolver
+//   const playersJSON = response.data;
+
+//   if (playersJSON) {
+//     setPlayers(playersJSON.search);
+//     console.log("SETTING SHOWING PLAYER CHOICES");
+//     console.log("PLAYERS", playersJSON.search);
+//     setShowPlayerChoices(true);
+//   }
+// };
+
+//  useEffect(() => {
+//    if (!submitted) return;
+//    console.log("IN USE EFFECT");
+
+//    getPlayers();
+//    setSubmitted(false);
+
+//    // eslint-disable-next-line
+//  }, [submitted]);

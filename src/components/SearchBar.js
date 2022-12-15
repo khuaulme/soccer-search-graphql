@@ -4,6 +4,7 @@ import SearchIcon from "../images/Search.png";
 const SearchBar = ({ setSubmitted, searchTerm, setSearchTerm }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log("Click");
     setSubmitted(true);
   };
   return (
