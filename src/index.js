@@ -14,8 +14,9 @@ import {
 import * as Realm from "realm-web";
 
 // Connect to your MongoDB Realm app
-const REALM_APP_ID = "worldcup2022-pzgui"; // e.g. myapp-abcde
-const app = new Realm.App({ id: REALM_APP_ID });
+export const APP_ID = "atlassearchsoccergraphql-osuzx";
+
+const app = new Realm.App({ id: APP_ID });
 // Gets a valid Realm user access token to authenticate requests
 async function getValidAccessToken() {
   // Guarantee that there's a logged in user with a valid access token
@@ -32,10 +33,13 @@ async function getValidAccessToken() {
   return app.currentUser.accessToken;
 }
 
+const graphqlUri =
+  "https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/atlassearchsoccergraphql-osuzx/graphql";
+
 // Configure the ApolloClient to connect to your app's GraphQL endpoint
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: `https://us-west-2.aws.realm.mongodb.com/api/client/v2.0/app/worldcup2022-pzgui/graphql`,
+    uri: graphqlUri,
     // We define a custom fetch handler for the Apollo client that lets us authenticate GraphQL requests.
     // The function intercepts every Apollo HTTP request and adds an Authorization header with a valid
     // access token before sending the request.

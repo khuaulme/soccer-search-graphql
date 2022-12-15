@@ -1,26 +1,12 @@
 import React, { useEffect, useState } from "react";
-import * as Realm from "realm-web";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  HttpLink,
-} from "@apollo/client";
+import { APP_ID } from "./index.js";
+import { useQuery } from "@apollo/client";
+import { LOAD_PLAYERS } from "./GraphQL/Queries";
 
 import PlayerGrid from "./components/PlayerGrid";
 import SearchBar from "./components/SearchBar";
 import PlayerModal from "./components/PlayerModal";
 import GetPlayers from "./components/GetPlayers";
-
-const graphqlUri =
-  "https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/atlassearchsoccergraphql-osuzx/graphql";
-
-const client = new ApolloClient({
-  link: new HttpLink({
-    uri: graphqlUri,
-  }),
-  cache: new InMemoryCache(),
-});
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -61,51 +47,49 @@ function App() {
   }, [submitted]);
 
   return (
-    <ApolloProvider client={client}>
-      <div className="min-h-screen bg-black">
-        <h2 className="text-center text-4xl text-white pt-12">
-          Atlas GraphQL Soccer
-        </h2>
-        <h2 className="text-center text-xl text-green-400 pt-4  pb-12">
-          Find Your Players ⚽
-        </h2>
-        <div className="flex mx-auto w-3/5 justify-around items-center">
-          <SearchBar
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            setSubmitted={setSubmitted}
-          />
-        </div>
-        <hr
-          style={{
-            color: "green",
-            backgroundColor: "green",
-            height: 2,
-            borderColor: "green",
-          }}
+    <div className="min-h-screen bg-black">
+      <h2 className="text-center text-4xl text-white pt-12">
+        Atlas GraphQL Soccer
+      </h2>
+      <h2 className="text-center text-xl text-green-400 pt-4  pb-12">
+        Find Your Players ⚽
+      </h2>
+      <div className="flex mx-auto w-3/5 justify-around items-center">
+        <SearchBar
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          setSubmitted={setSubmitted}
         />
-
-        <div className="px-12">
-          {showPlayerChoices && (
-            <>
-              <PlayerGrid
-                players={players}
-                setDisplayedPlayer={setDisplayedPlayer}
-                setShowPlayerModal={setShowPlayerModal}
-              />
-            </>
-          )}
-        </div>
-        {showPlayerModal ? (
-          <PlayerModal
-            players={players}
-            displayedPlayer={displayedPlayer} // displayedPlayer
-            setShowPlayerModal={setShowPlayerModal}
-          />
-        ) : null}
-        <GetPlayers />
       </div>
-    </ApolloProvider>
+      <hr
+        style={{
+          color: "green",
+          backgroundColor: "green",
+          height: 2,
+          borderColor: "green",
+        }}
+      />
+
+      <div className="px-12">
+        {showPlayerChoices && (
+          <>
+            <PlayerGrid
+              players={players}
+              setDisplayedPlayer={setDisplayedPlayer}
+              setShowPlayerModal={setShowPlayerModal}
+            />
+          </>
+        )}
+      </div>
+      {showPlayerModal ? (
+        <PlayerModal
+          players={players}
+          displayedPlayer={displayedPlayer} // displayedPlayer
+          setShowPlayerModal={setShowPlayerModal}
+        />
+      ) : null}
+      <GetPlayers />
+    </div>
   );
 }
 
