@@ -19,7 +19,11 @@ const PlayerCard = ({
       <div className="">{player?.long_name}</div>
       <div className="flex justify-evenly mt-2">
         <img src={player?.nation_flag_url} className="w-8 " alt="flag"></img>
-        <div>{player.nationality_name?.country}</div>
+        {player.nationality_name?.country ? (
+          <div>{player.nationality_name?.country}</div>
+        ) : (
+          <div>{player.nationality_name}</div>
+        )}
         <div>{player?.nation_jersey_number}</div>
       </div>
       <img
@@ -45,7 +49,7 @@ const PlayerCard = ({
           borderColor: "green",
         }}
       />
-      {player.nationality_name && (
+      {player.nationality_name?.country && (
         <CountryCard nation={player.nationality_name} />
       )}
       <div className="mt-6 w-4/5 mx-auto ">
