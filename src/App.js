@@ -12,11 +12,13 @@ function App() {
   const [showPlayerModal, setShowPlayerModal] = useState(false);
 
   const EndPoint =
-    "https://us-east-1.aws.data.mongodb-api.com/app/worldcupgraphql-cxtzr/endpoint/searchGraphQL";
+    "https://us-east-1.aws.data.mongodb-api.com/app/atlassearchsoccergraphql-osuzx/endpoint/getPlayers";
+
+  // "https://us-east-1.aws.data.mongodb-api.com/app/worldcupgraphql-cxtzr/endpoint/searchGraphQL";
 
   const getPlayers = async () => {
     console.log("IN GETPLAYERS");
-    let API = `${EndPoint}?name=$${searchTerm}`;
+    let API = `${EndPoint}?name=${searchTerm}`;
 
     const response = await (await fetch(API)).json();
 

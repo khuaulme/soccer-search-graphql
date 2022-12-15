@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import LikePlayerSection from "./LikePlayerSection";
-// import MoreLikeThisCode from "./MoreLikeThisCode";
-//import TikTok from "./TikTok";
+import TikTok from "./TikTok";
 
 const PlayerModal = ({
   setShowPlayerModal,
@@ -19,38 +18,30 @@ const PlayerModal = ({
   //   let scoreString = "" + displayedPlayer?.score;
   //   scoreString = scoreString.slice(0, 5);
 
-  //   const getLikePlayersTikTok = async () => {
-  //     console.log("in GraphQL function");
-  //     console.log("PLAYER ID: ", displayedPlayer._id);
-  //     console.log("PLAYER NAME: ", displayedPlayer.short_name);
-  //     const GRAPHQLENDPOINT = `https://us-west-2.aws.data.mongodb-api.com/app/reinvent-zxcbu/endpoint/masterGraphQL?name=${displayedPlayer.short_name}&ID=${displayedPlayer._id}`;
-  //     const response = await (await fetch(GRAPHQLENDPOINT)).json();
-  //     console.log("TIKTOK", response.data.tiktok_trends[0].video.playAddr);
-  //     setLikePlayers(response.data.moreLikeThis);
-  //     setAuthor(response.data.tiktok_trends[0].author.nickname);
-  //     setDescription(response.data.tiktok_trends[0].description);
-  //     setTikTokURL(response.data.tiktok_trends[0].video.playAddr);
-  //   };
+  const getLikePlayersTikTok = async () => {
+    console.log("in GraphQL function");
+    console.log("PLAYER ID: ", displayedPlayer._id);
+    console.log("PLAYER NAME: ", displayedPlayer.short_name);
+    const GRAPHQLENDPOINT = `https://us-east-1.aws.data.mongodb-api.com/app/atlassearchsoccergraphql-osuzx/endpoint/playerDetails?name=${displayedPlayer.short_name}`;
+    const response = await (await fetch(GRAPHQLENDPOINT)).json();
+    console.log("TIKTOK", response.data.player.tiktok_trends[1].video.playAddr);
 
-  //   const getLikePlayers = async () => {
-  //     console.log("PLAYER ID: ", displayedPlayer._id);
+    console.log("LIKE PLAYERS: ", response.data.player.likePlayers);
+    setLikePlayers(response.data.player.likePlayers);
+    setAuthor(response.data.player.tiktok_trends[1].author.nickname);
+    setDescription(response.data.player.tiktok_trends[1].description);
+    setTikTokURL(response.data.player.tiktok_trends[1].video.playAddr);
+  };
 
-  //     const ENDPOINT = `https://us-east-1.aws.data.mongodb-api.com/app/atlassearchsoccer-xxklh/endpoint/likePlayers?arg=${displayedPlayer._id}`;
-  //     const response = await (await fetch(ENDPOINT)).json();
-  //     console.log("RESPONSE", response);
-  //     setLikePlayers(response);
-  //   };
+  useEffect(() => {
+    getLikePlayersTikTok();
 
-  //   useEffect(() => {
-  //     // getLikePlayers();
-  //     getLikePlayersTikTok();
-
-  //     // eslint-disable-next-line
-  //   }, []);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="fixed inset-0 z-20 p-20 flex justify-center bg-smoke-darkest">
-      <div className="relative flex flex-col w-1/2 bg-gray-900 text-white border-r-2 border-slate-700 pt-5">
+      <div className="relative flex flex-col w-1/3 bg-gray-900 text-white border-r-2 border-slate-700 pt-5">
         {/* <div className="absolute -top-3 right-0 bg-red-600 rounded-full font-bold px-2 py-1  w-auto mx-auto">
           Search Score: {scoreString}
         </div> */}
@@ -122,6 +113,14 @@ const PlayerModal = ({
             />
           </svg>
         </div>
+      </div>
+      <LikePlayerSection players={likePlayers} />
+      <div className="mx-2 ">
+        <TikTok
+          author={author}
+          description={description}
+          TikTokURL={TikTokURL}
+        />
       </div>
     </div>
   );
