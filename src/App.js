@@ -1,8 +1,26 @@
-import React, { startTransition, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import * as Realm from "realm-web";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+} from "@apollo/client";
+
 import PlayerGrid from "./components/PlayerGrid";
 import SearchBar from "./components/SearchBar";
 import PlayerModal from "./components/PlayerModal";
 import GetPlayers from "./components/GetPlayers";
+
+const graphqlUri =
+  "https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/atlassearchsoccergraphql-osuzx/graphql";
+
+const client = new ApolloClient({
+  link: new HttpLink({
+    uri: graphqlUri,
+  }),
+  cache: new InMemoryCache(),
+});
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -43,50 +61,61 @@ function App() {
   }, [submitted]);
 
   return (
-    <div className="min-h-screen bg-black">
-      <h2 className="text-center text-4xl text-white pt-12">
-        Atlas GraphQL Soccer
-      </h2>
-      <h2 className="text-center text-xl text-green-400 pt-4  pb-12">
-        Find Your Players ⚽
-      </h2>
-      <div className="flex mx-auto w-3/5 justify-around items-center">
-        <SearchBar
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          setSubmitted={setSubmitted}
+    <ApolloProvider client={client}>
+      <div className="min-h-screen bg-black">
+        <h2 className="text-center text-4xl text-white pt-12">
+          Atlas GraphQL Soccer
+        </h2>
+        <h2 className="text-center text-xl text-green-400 pt-4  pb-12">
+          Find Your Players ⚽
+        </h2>
+        <div className="flex mx-auto w-3/5 justify-around items-center">
+          <SearchBar
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            setSubmitted={setSubmitted}
+          />
+        </div>
+        <hr
+          style={{
+            color: "green",
+            backgroundColor: "green",
+            height: 2,
+            borderColor: "green",
+          }}
         />
-      </div>
-      <hr
-        style={{
-          color: "green",
-          backgroundColor: "green",
-          height: 2,
-          borderColor: "green",
-        }}
-      />
 
-      <div className="px-12">
-        {showPlayerChoices && (
-          <>
-            <PlayerGrid
-              players={players}
-              setDisplayedPlayer={setDisplayedPlayer}
-              setShowPlayerModal={setShowPlayerModal}
-            />
-          </>
-        )}
+        <div className="px-12">
+          {showPlayerChoices && (
+            <>
+              <PlayerGrid
+                players={players}
+                setDisplayedPlayer={setDisplayedPlayer}
+                setShowPlayerModal={setShowPlayerModal}
+              />
+            </>
+          )}
+        </div>
+        {showPlayerModal ? (
+          <PlayerModal
+            players={players}
+            displayedPlayer={displayedPlayer} // displayedPlayer
+            setShowPlayerModal={setShowPlayerModal}
+          />
+        ) : null}
+        <GetPlayers />
       </div>
-      {showPlayerModal ? (
-        <PlayerModal
-          players={players}
-          displayedPlayer={displayedPlayer} // displayedPlayer
-          setShowPlayerModal={setShowPlayerModal}
-        />
-      ) : null}
-      <GetPlayers />
-    </div>
+    </ApolloProvider>
   );
 }
 
 export default App;
+
+// "https://us-east-1.aws.data.mongodb-api.com/app/worldcupgraphql-cxtzr/endpoint/searchGraphQL";
+// const errorLink = onError(({ graphqlErrors, networkError }) => {
+//   if (graphqlErrors) {
+//     graphqlErrors.map(({ message, location, path }) => {
+//       alert(`GraphQL error: ${message}`);
+//     });
+//   }
+// });
