@@ -14,9 +14,10 @@ import {
 import * as Realm from "realm-web";
 
 // Connect to your MongoDB Realm app
-export const APP_ID = "atlassearchsoccergraphql-osuzx";
+export const APP_ID = "worldcupgraphql-cxtzr";
 
 const app = new Realm.App({ id: APP_ID });
+
 // Gets a valid Realm user access token to authenticate requests
 async function getValidAccessToken() {
   // Guarantee that there's a logged in user with a valid access token
@@ -34,7 +35,7 @@ async function getValidAccessToken() {
 }
 
 const graphqlUri =
-  "https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/atlassearchsoccergraphql-osuzx/graphql";
+  "https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/worldcupgraphql-cxtzr/graphql";
 
 // Configure the ApolloClient to connect to your app's GraphQL endpoint
 const client = new ApolloClient({
