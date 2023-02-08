@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CountryCard from "./CountryCard";
 
 const PlayerCard = ({
@@ -8,6 +8,23 @@ const PlayerCard = ({
   setDisplayedPlayer,
 }) => {
   // if (!player.nation_jersey_number) player.nation_jersey_number = 0;
+  console.log("IN PLAYER CARD", player.nationality_name);
+  const country = player.nationality_name;
+  const [stats, setStats] = useState("");
+  const API = `https://us-east-1.aws.data.mongodb-api.com/app/atlassearchsoccergraphql-osuzx/endpoint/countryStats?country=${country}`;
+
+  const getCountryStats = async (country) => {
+    const response = await (await fetch(API)).json();
+    setStats(response);
+    console.log(response);
+    console.log("PCRES");
+  };
+  useEffect(() => {
+    getCountryStats();
+
+    // eslint-disable-next-line
+  }, []);
+
   if (!player.club_jersey_number) player.club_jersey_number = 0;
 
   if (!player.player_face_url) player.player_face_url = "";
@@ -44,7 +61,7 @@ const PlayerCard = ({
           borderColor: "green",
         }}
       />
-      <CountryCard nation={player.nationality_name} />
+      <CountryCard nation={player.nationality_name} stats={stats} />
       <div className="mt-6 w-4/5 mx-auto ">
         {" "}
         <div
