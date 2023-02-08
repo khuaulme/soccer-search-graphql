@@ -7,23 +7,24 @@ const PlayerCard = ({
   displayedPlayer,
   setDisplayedPlayer,
 }) => {
+  console.log("PLAYER", player);
   // if (!player.nation_jersey_number) player.nation_jersey_number = 0;
-  console.log("IN PLAYER CARD", player.nationality_name);
-  const country = player.nationality_name;
-  const [stats, setStats] = useState("");
-  const API = `https://us-east-1.aws.data.mongodb-api.com/app/atlassearchsoccergraphql-osuzx/endpoint/countryStats?country=${country}`;
+  // console.log("IN PLAYER CARD", player.nationality_name);
+  // const country = player.nationality_name;
+  // const [stats, setStats] = useState("");
+  // const API = `https://us-east-1.aws.data.mongodb-api.com/app/atlassearchsoccergraphql-osuzx/endpoint/countryStats?country=${country}`;
 
-  const getCountryStats = async (country) => {
-    const response = await (await fetch(API)).json();
-    setStats(response);
-    console.log(response);
-    console.log("PCRES");
-  };
-  useEffect(() => {
-    getCountryStats();
+  // const getCountryStats = async (country) => {
+  //   const response = await (await fetch(API)).json();
+  //   setStats(response);
+  //   console.log(response);
+  //   console.log("PCRES");
+  // };
+  // useEffect(() => {
+  //   getCountryStats();
 
-    // eslint-disable-next-line
-  }, []);
+  //   // eslint-disable-next-line
+  // }, []);
 
   if (!player.club_jersey_number) player.club_jersey_number = 0;
 
@@ -61,7 +62,7 @@ const PlayerCard = ({
           borderColor: "green",
         }}
       />
-      <CountryCard nation={player.nationality_name} stats={stats} />
+      <CountryCard nation={player.nationality_name} stats={player?.stats} />
       <div className="mt-6 w-4/5 mx-auto ">
         {" "}
         <div

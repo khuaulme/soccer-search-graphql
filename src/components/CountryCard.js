@@ -2,7 +2,7 @@ import React from "react";
 import Trophy from "../images/cup.png";
 
 const CountryCard = ({ nation, stats }) => {
-  console.log("NATION", nation);
+  console.log("STATS", stats);
   return (
     <div className=" flex justify-center text-center shadow-xl p-4 text-white mt-2">
       <img

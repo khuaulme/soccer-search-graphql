@@ -15,19 +15,32 @@ function App() {
   const EndPoint =
     "https://us-east-1.aws.data.mongodb-api.com/app/atlassearchsoccergraphql-osuzx/endpoint/getPlayers";
 
+  const getCountryStats = async (country) => {
+    const COUNTRYAPI = `https://us-east-1.aws.data.mongodb-api.com/app/atlassearchsoccergraphql-osuzx/endpoint/countryStats?country=${country}`;
+    const stats = await (await fetch(COUNTRYAPI)).json();
+    return stats;
+  };
+
   const getPlayers = async () => {
     console.log("IN GETPLAYERS");
     let API = `${EndPoint}?name=${searchTerm}`;
 
     const response = await (await fetch(API)).json();
+    let i = 0;
 
     console.log("RESPONSE", response.data); // payload returns searchPlayers array - name of customResolver
     const playersJSON = response.data;
 
     if (playersJSON) {
+      for (i = 0; i < playersJSON.search.length; i++) {
+        let country = playersJSON.search[i].nationality_name;
+        playersJSON.search[i].stats = await getCountryStats(country);
+      }
+
       setPlayers(playersJSON.search);
       console.log("SETTING SHOWING PLAYER CHOICES");
       console.log("PLAYERS", playersJSON.search);
+
       setShowPlayerChoices(true);
     }
   };
